@@ -7,7 +7,8 @@
 Install Ruby and Rails using [Ruby installer](https://rubyinstaller.org) check version below &darr;
 Also, you might going to need dotenv gem to load connections.env file (you need to setup your own)
 
-At root directory create 'connections.env' an add you database's credentials to it
+At root directory create 'connections.env' an add you database's credentials to it.
+
 Example
 ```ruby
 db_name=erp_cloud_development
