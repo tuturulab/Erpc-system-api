@@ -10,10 +10,56 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_20_035544) do
+ActiveRecord::Schema.define(version: 2019_08_22_235038) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "Categoria", force: :cascade do |t|
+    t.string "nombreCategoria"
+    t.bigint "proveedor_id"
+    t.index ["proveedor_id"], name: "index_Categoria_on_proveedor_id"
+  end
+
+  create_table "Empresa", force: :cascade do |t|
+    t.string "nombreEmpresa"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "companies", force: :cascade do |t|
+    t.string "name", limit: 20
+    t.string "description", limit: 255
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_companies_on_user_id"
+  end
+
+  create_table "proveedor", force: :cascade do |t|
+    t.string "nombreProveedor"
+    t.string "lugar"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.string "name", limit: 15
+    t.string "description", limit: 255
+    t.bigint "company_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_roles_on_company_id"
+  end
+
+  create_table "user_roles", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "role_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["role_id"], name: "index_user_roles_on_role_id"
+    t.index ["user_id"], name: "index_user_roles_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "name"
@@ -22,7 +68,6 @@ ActiveRecord::Schema.define(version: 2019_08_20_035544) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "role"
   end
 
 end
