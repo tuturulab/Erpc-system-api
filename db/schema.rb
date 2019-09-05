@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_01_002515) do
+ActiveRecord::Schema.define(version: 2019_09_05_052933) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,8 +20,8 @@ ActiveRecord::Schema.define(version: 2019_09_01_002515) do
     t.string "descripcion"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "Empresa_id"
-    t.index ["Empresa_id"], name: "index_Area_on_Empresa_id"
+    t.bigint "Company_id"
+    t.index ["Company_id"], name: "index_Area_on_Company_id"
   end
 
   create_table "Categoria", force: :cascade do |t|
@@ -35,8 +35,15 @@ ActiveRecord::Schema.define(version: 2019_09_01_002515) do
     t.integer "telefono"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "ClienteEmpresa", force: :cascade do |t|
+    t.bigint "Cliente_id"
     t.bigint "Empresa_id"
-    t.index ["Empresa_id"], name: "index_Cliente_on_Empresa_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["Cliente_id"], name: "index_ClienteEmpresa_on_Cliente_id"
+    t.index ["Empresa_id"], name: "index_ClienteEmpresa_on_Empresa_id"
   end
 
   create_table "Empleado", force: :cascade do |t|
@@ -47,21 +54,6 @@ ActiveRecord::Schema.define(version: 2019_09_01_002515) do
     t.datetime "fechaContrato"
     t.bigint "Rol_id"
     t.index ["Rol_id"], name: "index_Empleado_on_Rol_id"
-  end
-
-  create_table "Empresa", force: :cascade do |t|
-    t.string "nombreEmpresa"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "EmpresaProducto", force: :cascade do |t|
-    t.bigint "Empresa_id"
-    t.bigint "Producto_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["Empresa_id"], name: "index_EmpresaProducto_on_Empresa_id"
-    t.index ["Producto_id"], name: "index_EmpresaProducto_on_Producto_id"
   end
 
   create_table "Pago", force: :cascade do |t|
@@ -78,7 +70,9 @@ ActiveRecord::Schema.define(version: 2019_09_01_002515) do
     t.bigint "Categoria_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "Company_id"
     t.index ["Categoria_id"], name: "index_Producto_on_Categoria_id"
+    t.index ["Company_id"], name: "index_Producto_on_Company_id"
   end
 
   create_table "Rol", force: :cascade do |t|
@@ -93,7 +87,9 @@ ActiveRecord::Schema.define(version: 2019_09_01_002515) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "Cliente_id"
+    t.bigint "users_id"
     t.index ["Cliente_id"], name: "index_Venta_on_Cliente_id"
+    t.index ["users_id"], name: "index_Venta_on_users_id"
   end
 
   create_table "VentaProducto", force: :cascade do |t|
@@ -105,6 +101,27 @@ ActiveRecord::Schema.define(version: 2019_09_01_002515) do
     t.index ["Venta_id"], name: "index_VentaProducto_on_Venta_id"
   end
 
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
   create_table "companies", force: :cascade do |t|
     t.string "name", limit: 20
     t.string "description", limit: 255
@@ -112,6 +129,11 @@ ActiveRecord::Schema.define(version: 2019_09_01_002515) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_companies_on_user_id"
+  end
+
+  create_table "productos", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "proveedor", force: :cascade do |t|
@@ -148,4 +170,10 @@ ActiveRecord::Schema.define(version: 2019_09_01_002515) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "venta", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
 end
