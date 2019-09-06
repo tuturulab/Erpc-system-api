@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_05_052933) do
+ActiveRecord::Schema.define(version: 2019_09_06_025514) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -128,6 +128,7 @@ ActiveRecord::Schema.define(version: 2019_09_05_052933) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "logo"
     t.index ["user_id"], name: "index_companies_on_user_id"
   end
 
@@ -168,6 +169,7 @@ ActiveRecord::Schema.define(version: 2019_09_05_052933) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "avatar"
   end
 
   create_table "venta", force: :cascade do |t|
